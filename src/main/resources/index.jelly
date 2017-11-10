@@ -1,0 +1,7 @@
+<?jelly escape-by-default='true'?>
+<!--
+  Plugin description for the install pages.
+-->
+<div>
+  This plugin includes integrations for Continuum, including pipeline steps for REST API commands.
+</div>
