@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.645</version>
+    <version>2.11</version>
   </parent>
   <artifactId>continuum</artifactId>
   <version>1.0.0-SNAPSHOT</version>
@@ -11,7 +11,7 @@
   <name>Continuum Plugin</name>
   <description>Continuum Jenkins integration, exposing Continuum REST API commands as pipeline steps.</description>
   <properties>
-    <compile.java.version>1.8</compile.java.version>
+    <compile.java.version>1.6</compile.java.version>
     <hudson.plugin.version>1.23</hudson.plugin.version>
   </properties>
   <developers>
