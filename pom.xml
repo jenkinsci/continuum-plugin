@@ -125,8 +125,9 @@
     </plugins>
   </build>
   <scm>
-    <connection>scm:git:ssh://github.com/jenkinsci/continuum-plugin.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/continuum-plugin.git</developerConnection>
+    <connection>scm:git:git://github.com/jenkinsci/continuum-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/continuum-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/continuum-plugin</url>
+    <tag>HEAD</tag>
 </scm>
 </project>
