@@ -6,7 +6,7 @@
     <version>2.11</version>
   </parent>
   <artifactId>continuum</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <name>Continuum Plugin</name>
   <description>Continuum Jenkins integration, exposing Continuum REST API commands as pipeline steps.</description>
@@ -128,6 +128,6 @@
     <url>https://github.com/jenkinsci/continuum-plugin</url>
     <connection>scm:git:git://github.com/jenkinsci/continuum-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/continuum-plugin.git</developerConnection>
-    <tag>continuum-1.0.1</tag>
+    <tag>HEAD</tag>
 </scm>
 </project>
