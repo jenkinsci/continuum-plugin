@@ -262,20 +262,12 @@ public class CtmInitiatePipelineStep extends CtmCommandStep {
 
         private JSONObject getDetails() throws Exception{
             if (!isBlank(this.step.environmentVariables)) {
-                JSONObject details = null;
-                String[] vars = this.step.environmentVariables.trim().split("\\s*,\\s*");
-                EnvVars eVars = getEnvVars();
-                if (vars.length == 1 && "*".equals(vars[0])) {
-                    details = JSONObject.fromObject(eVars);
+                String[] subset = this.step.environmentVariables.trim().split("\\s*,\\s*");
+                if (subset.length == 1 && "*".equals(subset[0])) {
+                	subset = null;
                 }
-                else {
-                    details = new JSONObject();
-                    for (String varKey : vars) {
-                        if (eVars.containsKey(varKey)) {
-                            details = details.element(varKey, eVars.get(varKey));
-                        }
-                    }
-                }
+                EnvVars eVars = getEnvVars(subset, true /* replaceDots */);
+                JSONObject details = JSONObject.fromObject(eVars);
                 if (details != null && !details.isEmpty()) {
                     return new JSONObject()
                             .element("automation", new JSONObject()

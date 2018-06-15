@@ -17,9 +17,12 @@
 package jenkins.plugins.continuum.steps;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.replaceChars;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,6 +60,8 @@ import jenkins.plugins.continuum.steps.CtmInitiatePipelineStep.CtmInitiatePipeli
  * Base class for Continuum command steps
  */
 public abstract class CtmCommandStep extends Step {
+
+	private static final char DOT_REPLACEMENT = '_';
 
     /** The root URL to the Continuum server. */
     private final String ctmUrl;
@@ -165,8 +170,40 @@ public abstract class CtmCommandStep extends Step {
         }
 
         protected EnvVars getEnvVars() {
+        	return getEnvVars(null /* subset */, false /* replaceDots */);
+        }
+
+        /**
+         * Gets the environment variables.
+         * If 'subset' parameter is specified, the result includes the variables in the subset only,
+         * If 'replaceDots' is true, then the '.' chars in variables names are replaced with DOT_REPLACEMENT,
+         * The the variable names in the 'subset' are assumed to be the original names (i.e. with dots)
+         */
+        protected EnvVars getEnvVars(String[] subset, boolean replaceDots) {
         	try {
-        		return getContext().get(EnvVars.class);
+        		EnvVars r = getContext().get(EnvVars.class);
+        		if (r != null  && !r.isEmpty() &&
+        				(replaceDots || (subset != null && subset.length > 0))) {
+        			Set<String> varSet = (subset == null || subset.length == 0) ?
+        					null : new HashSet<String>(Arrays.asList(subset));
+        			boolean replaced = false;
+        			EnvVars n = new EnvVars();
+        			for (String varName : r.keySet()) {
+        				boolean includeVar = varSet == null || varSet.contains(varName);
+        				if (includeVar) {
+        					String useVarName = varName;
+        					if (replaceDots) {
+        						useVarName = replaceChars(useVarName, '.', DOT_REPLACEMENT);
+        						replaced |= !varName.equals(useVarName);
+        					}
+        					n.put(useVarName, r.get(varName));
+        				}
+        			}
+        			if (replaced || r.size() != n.size()) {
+        				r = n;
+        			}
+        		}
+        		return r;
         	} catch (InterruptedException e) {
         	} catch (IOException e) {
 			}
